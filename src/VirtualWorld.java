@@ -1,7 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import processing.core.*;
 
@@ -78,18 +83,46 @@ public final class VirtualWorld extends PApplet
         view.drawViewport();
     }
 
+    static final Function<Point, Stream<Point>> CARDINAL_NEIGHBORS =
+            point ->
+                    Stream.<Point>builder()
+                            .add(new Point(point.getX(), point.getY() -1))
+                            .add(new Point(point.getX(), point.getY() + 1))
+                            .add(new Point(point.getX() - 1, point.getY()))
+                                            .add(new Point(point.getX() + 1, point.getY())).build();
+
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
     public void mousePressed() {
         Point pressed = mouseToPoint(mouseX, mouseY);
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
-        Optional<Entity> entityOptional = world.getOccupant( pressed);
-        if (entityOptional.isPresent())
-        {
-            Entity entity = entityOptional.get();
-            System.out.println(entity.getId() + ": " + entity.getClass() + " : " + entity.getPosition());
+        List<Point> cardinal_neighbors = CARDINAL_NEIGHBORS.apply(pressed).collect(Collectors.toList());
+        world.setBackground(pressed,
+        new Background("fire", imageStore.getImageList("fire")));
+
+        for( Point n: cardinal_neighbors){
+            world.setBackground(n, new Background("fire", imageStore.getImageList("fire")));
+
+            Entity occupant = null;
+            if(world.isOccupied(n)){
+                occupant = world.getOccupant(n).get();
+            }
+            if(world.isOccupied(pressed)){
+                occupant = world.getOccupant(pressed).get();
+            }
+            if (occupant != null){
+                if(occupant.getClass() == Tree.class){
+                    world.removeEntity(occupant);
+                    scheduler.unscheduleAllEvents(occupant);
+                    Sheep s = (Sheep) Sheep.createSheep("sheep", n , 700, 101, imageStore.getImageList("sheep"));
+                    world.addEntity(s);
+                    s.scheduleActions(scheduler, world, imageStore);
+                }
+            }
         }
+
+
 
     }
 
