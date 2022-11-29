@@ -16,10 +16,15 @@ public class Sheep extends ActivityEntity implements Moving{
         );
     }
 
-
+    @Override
     public void executeEntityActivity(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-       return null;
+
     }
+
+
+    //   public void executeEntityActivity(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
+ //      return null;
+ //   }
 
 
 
