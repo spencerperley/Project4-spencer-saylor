@@ -88,8 +88,7 @@ public final class VirtualWorld extends PApplet
                     Stream.<Point>builder()
                             .add(new Point(point.getX(), point.getY() -1))
                             .add(new Point(point.getX(), point.getY() + 1))
-                            .add(new Point(point.getX() - 1, point.getY()))
-                                            .add(new Point(point.getX() + 1, point.getY())).build();
+                            .add(new Point(point.getX() - 1, point.getY())).build();
 
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
@@ -98,11 +97,11 @@ public final class VirtualWorld extends PApplet
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
         List<Point> cardinal_neighbors = CARDINAL_NEIGHBORS.apply(pressed).collect(Collectors.toList());
-        world.setBackground(pressed,
-        new Background("fire", imageStore.getImageList("fire")));
+        //world.setBackground(pressed,
+        //new Sheep("sheep", imageStore.getImageList("sheep")));
 
         for( Point n: cardinal_neighbors){
-            world.setBackground(n, new Background("fire", imageStore.getImageList("fire")));
+            //world.setBackground(n, new Background("sheep", imageStore.getImageList("sheep")));
 
             Entity occupant = null;
             if(world.isOccupied(n)){
@@ -115,10 +114,17 @@ public final class VirtualWorld extends PApplet
                 if(occupant.getClass() == Tree.class){
                     world.removeEntity(occupant);
                     scheduler.unscheduleAllEvents(occupant);
-                    Sheep s = (Sheep) Sheep.createSheep("sheep", n , 700, 101, imageStore.getImageList("sheep"));
+                    Fire s = (Fire) Fire.createFire("fire", new Point(n.getX(), n.getY() +1), 700, 101, imageStore.getImageList("fire"));
                     world.addEntity(s);
                     s.scheduleActions(scheduler, world, imageStore);
                 }
+                break;
+            }
+            else{
+                Sheep s = (Sheep) Sheep.createSheep("sheep", n, 700, 101, imageStore.getImageList("sheep"));
+                world.addEntity(s);
+                s.scheduleActions(scheduler, world, imageStore);
+
             }
         }
 
@@ -132,6 +138,8 @@ public final class VirtualWorld extends PApplet
     }
     public void keyPressed() {
         if (key == CODED) {
+
+            // DudeFull p = DudeFull.get
             int dx = 0;
             int dy = 0;
 
@@ -150,6 +158,8 @@ public final class VirtualWorld extends PApplet
                     break;
             }
             view.shiftView(dx, dy);
+            // Zombie.getNextSpot(world, new Point(dx, dy));
+
         }
     }
 

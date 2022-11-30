@@ -1,12 +1,10 @@
 import processing.core.PImage;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
+
 import java.util.List;
 
-public class Sheep extends ActivityEntity implements Moving{
+public class Fire extends ActivityEntity implements Moving{
 
-    public Sheep(
+    public Fire(
             String id,
             Point position,
             int actionPeriod,
@@ -21,13 +19,13 @@ public class Sheep extends ActivityEntity implements Moving{
 
     }
 
+    public static Entity createFire(String id, Point position, int actionPeriod, int animationPeriod, List<PImage> images){
+        return new Fire(id, position,actionPeriod, animationPeriod, images);
+    }
 
-    public static Entity createSheep(String id, Point position, int actionPeriod, int animationPeriod, List<PImage> images){
-        return new Sheep(id, position,actionPeriod, animationPeriod, images);
-        }
 
-
+    @Override
     public Point nextPosition(WorldModel world, Point destPos) {
-      return null;
+        return null;
     }
 }

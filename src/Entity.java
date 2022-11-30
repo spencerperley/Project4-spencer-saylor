@@ -9,12 +9,7 @@ import processing.core.PImage;
 public abstract class Entity extends ImageObj
 {
 
-
-
     private Point position;
-
-
-
     public Entity(
 
             String id,
@@ -59,15 +54,6 @@ public abstract class Entity extends ImageObj
 
 
     // do
-
-
-
-
-
-
-
-
-
 
 }
 

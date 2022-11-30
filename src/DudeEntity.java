@@ -1,5 +1,6 @@
 import processing.core.PImage;
 
+import java.nio.file.Path;
 import java.util.List;
 
 public abstract class DudeEntity extends ActivityEntity implements Moving {
@@ -73,19 +74,14 @@ public abstract class DudeEntity extends ActivityEntity implements Moving {
 
     public Point nextPosition(
             WorldModel world, Point destPos) {
-        int horiz = Integer.signum(destPos.getX() - this.getPosition().getX());
-        Point newPos = new Point(this.getPosition().getX() + horiz, this.getPosition().getY());
+        PathingStrategy strategy = new AStarPathingStrategy();
+        List<Point> pointList = strategy.computePath(this.getPosition(), destPos, (p1) -> world.withinBounds(p1) && !world.isOccupied(p1), Point::adjacent, PathingStrategy.CARDINAL_NEIGHBORS);
 
-        if (horiz == 0 || world.isOccupied( newPos) && world.getOccupancyCell( newPos).getClass() != Stump.class) {
-            int vert = Integer.signum(destPos.getY() - this.getPosition().getY());
-            newPos = new Point(this.getPosition().getX(), this.getPosition().getY() + vert);
-
-            if (vert == 0 || world.isOccupied( newPos) && world.getOccupancyCell( newPos).getClass() != Stump.class) {
-                newPos = this.getPosition();
-            }
+        if(pointList.size() == 0){
+            return getPosition();
         }
 
-        return newPos;
+        return pointList.get(0);
     }
 
     public int getResourceLimit() {
