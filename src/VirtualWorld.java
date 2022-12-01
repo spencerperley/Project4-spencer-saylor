@@ -98,6 +98,7 @@ public final class VirtualWorld extends PApplet
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
         List<Point> cardinal_neighbors = CARDINAL_NEIGHBORS.apply(pressed).collect(Collectors.toList());
+
         world.setBackground(pressed,
         new Background("fire", imageStore.getImageList("fire")));
 
