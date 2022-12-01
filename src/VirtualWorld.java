@@ -98,6 +98,13 @@ public final class VirtualWorld extends PApplet
         Point pressed = mouseToPoint(mouseX, mouseY);
         System.out.println("CLICK! " + pressed.getX() + ", " + pressed.getY());
 
+        if (zombie_times == 0) {
+            Zombie z = Zombie.createZombie("zombie", new Point(pressed.getX() +4, pressed.getY()+1),  700, 100, imageStore.getImageList("zombie"));
+            world.addEntity(z);
+            z.scheduleActions(scheduler, world, imageStore);
+            zombie_times++;
+        }
+
         List<Point> cardinal_neighbors = CARDINAL_NEIGHBORS.apply(pressed).collect(Collectors.toList());
         //world.setBackground(pressed,
         //new Sheep("sheep", imageStore.getImageList("sheep")));
@@ -161,11 +168,7 @@ public final class VirtualWorld extends PApplet
             }
             view.shiftView(dx, dy);
             // Zombie.getNextSpot(world, new Point(dx, dy));
-            if (zombie_times == 0) {
-                Zombie z = Zombie.createZombie("zombie", new Point(10, 10), 700, 100, imageStore.getImageList("zombie"));
-                world.addEntity(z);
-                zombie_times++;
-            }
+
             DudeEntity.newPosi = new Point(DudeEntity.newPosi.getX() + dx, DudeEntity.newPosi.getY() + dy);
 
         }

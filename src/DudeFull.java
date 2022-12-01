@@ -17,8 +17,6 @@ public class DudeFull extends DudeEntity implements Moving{
 
     }
 
-
-
     public void transformFull(
             WorldModel world,
             EventScheduler scheduler,

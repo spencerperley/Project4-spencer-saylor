@@ -8,12 +8,11 @@ import java.util.Optional;
 public class Zombie extends ActivityEntity implements Moving{
 
     private static final int ZOMBIE_NUM_PROPERTIES = 10;
-    private static final int ZOMBIE_ID = 2;
-    private static final int ZOMBIE_COL = 3;
-    private static final int ZOMBIE_ROW = 5;
-    private static final int ZOMBIE_LIMIT = 2;
-    private static final int ZOMBIE_ACTION_PERIOD = 3;
-    private static final int ZOMBIE_ANIMATION_PERIOD = 2;
+    private static final int ZOMBIE_ID = 1;
+    private static final int ZOMBIE_COL = 2;
+    private static final int ZOMBIE_ROW = 3;
+    private static final int ZOMBIE_ACTION_PERIOD = 5;
+    private static final int ZOMBIE_ANIMATION_PERIOD = 4;
 
 
     public Zombie(
@@ -48,9 +47,6 @@ public class Zombie extends ActivityEntity implements Moving{
         return ZOMBIE_ID;
     }
 
-    public static int getZombieLimit() {
-        return ZOMBIE_LIMIT;
-    }
 
     public static Zombie createZombie(String id, Point position, int actionPeriod, int animationPeriod, List<PImage> images){
         return new Zombie(id, position, actionPeriod, animationPeriod, images);
@@ -58,7 +54,6 @@ public class Zombie extends ActivityEntity implements Moving{
 
     public Point nextPosition(
             WorldModel world, Point destPos) {
-        //destPos = DudeEntity.newPosi;
         PathingStrategy strategy = new AStarPathingStrategy();
         List<Point> pointList = strategy.computePath(this.getPosition(), destPos
                 , (p1) -> world.withinBounds(p1) && !world.isOccupied(p1), Point::adjacent, PathingStrategy.CARDINAL_NEIGHBORS);
@@ -69,6 +64,7 @@ public class Zombie extends ActivityEntity implements Moving{
 
         return pointList.get(0);
 
+
     }
 
     public void executeEntityActivity(
@@ -77,7 +73,7 @@ public class Zombie extends ActivityEntity implements Moving{
             ImageStore imageStore)
     {
         Optional<Entity> zombieTarget =
-                world.findNearest(this.getPosition(), new ArrayList<>(Arrays.asList(DudeEntity.class)));
+                world.findNearest(this.getPosition(), new ArrayList<>(Arrays.asList(DudeNotFull.class)));
 
         if (zombieTarget.isPresent()) {
             Point tgtPos = zombieTarget.get().getPosition();
