@@ -2,4 +2,6 @@
 2. When the event is triggered, an army of sheep should spawn, of if a tree is clicked a fire will appear
     A zombie will also appear after the first click on the screen, he will chase you
 3. The fires should move back and forth and the zombie should follow you
-4. The zombie should chase after you and 
+4. The zombie should chase after you and if it catches you turn you into a stump
+5. Spencer Dijkstra, images, Astar
+   Saylor Zombie, fire, images, Astar
