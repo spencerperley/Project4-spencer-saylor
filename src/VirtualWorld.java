@@ -15,6 +15,8 @@ public final class VirtualWorld extends PApplet
     public static final int TIMER_ACTION_PERIOD = 100;
 
     public static final int VIEW_WIDTH = 640;
+
+    public int zombie_times = 0;
     public static final int VIEW_HEIGHT = 480;
     public static final int TILE_WIDTH = 32;
     public static final int TILE_HEIGHT = 32;
@@ -100,7 +102,7 @@ public final class VirtualWorld extends PApplet
         //world.setBackground(pressed,
         //new Sheep("sheep", imageStore.getImageList("sheep")));
 
-        for( Point n: cardinal_neighbors){
+        for(Point n: cardinal_neighbors){
             //world.setBackground(n, new Background("sheep", imageStore.getImageList("sheep")));
 
             Entity occupant = null;
@@ -159,6 +161,12 @@ public final class VirtualWorld extends PApplet
             }
             view.shiftView(dx, dy);
             // Zombie.getNextSpot(world, new Point(dx, dy));
+            if (zombie_times == 0) {
+                Zombie z = Zombie.createZombie("zombie", new Point(10, 10), 700, 100, imageStore.getImageList("zombie"));
+                world.addEntity(z);
+                zombie_times++;
+            }
+            DudeEntity.newPosi = new Point(DudeEntity.newPosi.getX() + dx, DudeEntity.newPosi.getY() + dy);
 
         }
     }

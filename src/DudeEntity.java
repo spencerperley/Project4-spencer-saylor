@@ -15,6 +15,9 @@ public abstract class DudeEntity extends ActivityEntity implements Moving {
 
     private int resourceLimit;
 
+    public static Point newPosi = new Point(4, 3);
+
+
 
     public DudeEntity(String id,
                       Point position,
@@ -23,6 +26,8 @@ public abstract class DudeEntity extends ActivityEntity implements Moving {
                       int resourceLimit,
                       List<PImage> images){
         super(id,position,actionPeriod,animationPeriod,images);
+        setPosition(newPosi);
+
         this.setResourceLimit(resourceLimit);
     }
 
@@ -77,11 +82,17 @@ public abstract class DudeEntity extends ActivityEntity implements Moving {
         PathingStrategy strategy = new AStarPathingStrategy();
         List<Point> pointList = strategy.computePath(this.getPosition(), destPos, (p1) -> world.withinBounds(p1) && !world.isOccupied(p1), Point::adjacent, PathingStrategy.CARDINAL_NEIGHBORS);
 
-        if(pointList.size() == 0){
-            return getPosition();
+//        if(pointList.size() == 0){
+//            return getPosition();
+//        }
+//
+//        return pointList.get(0);
+        Point nextPos = newPosi;
+        if (!this.getPosition().equals(nextPos)){
+            world.moveEntity(this,nextPos);
         }
 
-        return pointList.get(0);
+        return nextPos;
     }
 
     public int getResourceLimit() {

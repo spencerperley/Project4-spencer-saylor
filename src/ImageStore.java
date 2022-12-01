@@ -9,6 +9,7 @@ public final class ImageStore
     private static final String STUMP_KEY = "stump";
     private static final String TREE_KEY = "tree";
     private static final String SAPLING_KEY = "sapling";
+    private static final String ZOMBIE_KEY = "zombie";
     private static final int COLOR_MASK = 0xffffff;
     private static final int KEYED_IMAGE_MIN = 5;
     private static final int KEYED_RED_IDX = 2;
@@ -44,6 +45,10 @@ public final class ImageStore
 
     public static int getColorMask() {
         return COLOR_MASK;
+    }
+
+    public static String getZombieKey() {
+        return ZOMBIE_KEY;
     }
 
     public static int getKeyedImageMin() {
