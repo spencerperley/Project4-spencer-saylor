@@ -28,4 +28,5 @@ public class Fire extends ActivityEntity implements Moving{
     @Override
     public Point nextPosition(WorldModel world, Point destPos) {
         return null;
+    }
 }
